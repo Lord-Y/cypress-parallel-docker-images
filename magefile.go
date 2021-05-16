@@ -117,6 +117,9 @@ func (m *buildImage) build() (err error) {
 			fmt.Sprintf("%s:%s-%s", ghr, m.image.cypress, strings.TrimPrefix(m.image.cli, "v")),
 		).Output()
 		log.Info().Msgf("%s", output)
+		if err != nil {
+			return
+		}
 	}
 	return
 }
