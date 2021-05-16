@@ -3,6 +3,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"os"
 	"os/exec"
@@ -93,6 +94,7 @@ func (m *buildImage) build() (err error) {
 		return
 	}
 	if m.publish {
+		var cmdOutput bytes.Buffer
 		cmd1 := exec.Command(
 			"echo",
 			strings.TrimSpace(os.Getenv("GITHUB_TOKEN")),
@@ -107,10 +109,23 @@ func (m *buildImage) build() (err error) {
 			"--password-stdin",
 		)
 		cmd2.Stdin, _ = cmd1.StdoutPipe()
+		cmd2.Stdout = &cmdOutput
 		err = cmd2.Start()
 		if err != nil {
+			log.Error().Err(err).Msg("Fail to run cmd2")
 			return
 		}
+		err = cmd1.Run()
+		if err != nil {
+			log.Error().Err(err).Msg("Fail to run cmd1")
+			return
+		}
+		err = cmd2.Wait()
+		if err != nil {
+			log.Error().Err(err).Msg("Fail to login to github docker registry")
+			return
+		}
+		log.Info().Msgf("%s", string(cmdOutput.Bytes()))
 
 		output, err = exec.Command(
 			"sudo",
