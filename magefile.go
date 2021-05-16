@@ -93,7 +93,7 @@ func (m *buildImage) build() (err error) {
 		return
 	}
 	if m.publish {
-		output, err = exec.Command(
+		cmd := exec.Command(
 			"echo",
 			strings.TrimSpace(os.Getenv("GITHUB_TOKEN")),
 			"|",
@@ -104,8 +104,8 @@ func (m *buildImage) build() (err error) {
 			"-u",
 			docker.Owner,
 			"--password-stdin",
-		).Output()
-		log.Info().Msgf("%s", output)
+		)
+		err = cmd.Run()
 		if err != nil {
 			return
 		}
