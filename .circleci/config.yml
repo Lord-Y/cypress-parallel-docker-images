@@ -1,0 +1,96 @@
+---
+version: 2.1
+
+# https://circleci.com/developer/images/image/cimg/go
+
+executors:
+  ubuntu:
+    machine:
+      image: ubuntu-2004:202104-01
+
+jobs:
+  build:
+    executor: ubuntu
+    environment:
+      GOLANG_VERSION: 1.16.4
+
+    steps:
+    - checkout
+
+    - restore_cache:
+        keys:
+        - ${CIRCLE_PROJECT_REPONAME}-{{ checksum "go.mod" }}
+
+    - run:
+        name: Install golang
+        command: which go || sh ./scripts/golang.sh ${GOLANG_VERSION}
+
+    - run:
+        name: download mage
+        command: which mage || go get -u github.com/magefile/mage
+
+    - save_cache:
+        key: ${CIRCLE_PROJECT_REPONAME}-{{ checksum "go.mod" }}
+        paths:
+        - /go/pkg/mod
+
+    - run:
+        name: Install dependencies
+        command: mage installDeps
+
+    - run:
+        name: Build docker image
+        command: mage build
+
+  build-and-publish:
+    executor: ubuntu
+    environment:
+      GOLANG_VERSION: 1.16.4
+      PUBLISH_DOCKER_IMAGES: true
+
+    steps:
+    - checkout
+
+    - restore_cache:
+        keys:
+        - ${CIRCLE_PROJECT_REPONAME}-{{ checksum "go.mod" }}
+
+    - run:
+        name: Install golang
+        command: which go || sh ./scripts/golang.sh ${GOLANG_VERSION}
+
+    - run:
+        name: download mage
+        command: which mage || go get -u github.com/magefile/mage
+
+    - save_cache:
+        key: ${CIRCLE_PROJECT_REPONAME}-{{ checksum "go.mod" }}
+        paths:
+        - /go/pkg/mod
+
+    - run:
+        name: Install dependencies
+        command: mage installDeps
+
+    - run:
+        name: Build docker image
+        command: mage build
+
+# https://circleci.com/docs/2.0/workflows/#git-tag-job-execution
+workflows:
+  version: 2
+  test-and-build:
+    jobs:
+    - build:
+        filters:
+          tags:
+            only: /.*/
+    - build-tags-and-publish:
+        context: GITHUB
+        requires:
+        - build
+        filters:
+          tags:
+            only: /^v\d+\.\d+\.\d+$/
+          branches:
+            ignore: /.*/
