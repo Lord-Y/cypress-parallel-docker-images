@@ -40,7 +40,7 @@ func init() {
 	logger.SetLoggerLogLevel()
 }
 
-// Build and publish docker images if doesn't exist
+// Build Build and publish docker images if doesn't exist
 func Build() (err error) {
 	mg.Deps(InstallDeps)
 	z, err := docker.GetDockerImages()
@@ -93,10 +93,11 @@ func (m *buildImage) build() (err error) {
 		return
 	}
 	if m.publish {
-		cmd := exec.Command(
+		cmd1 := exec.Command(
 			"echo",
 			strings.TrimSpace(os.Getenv("GITHUB_TOKEN")),
-			"|",
+		)
+		cmd2 := exec.Command(
 			"sudo",
 			"docker",
 			"login",
@@ -105,7 +106,8 @@ func (m *buildImage) build() (err error) {
 			docker.Owner,
 			"--password-stdin",
 		)
-		err = cmd.Run()
+		cmd2.Stdin, _ = cmd1.StdoutPipe()
+		err = cmd2.Start()
 		if err != nil {
 			return
 		}
@@ -124,7 +126,7 @@ func (m *buildImage) build() (err error) {
 	return
 }
 
-// Manage your deps, or running package managers.
+// Install dependencies
 func InstallDeps() error {
 	os.Setenv("GO111MODULE", "on")
 	fmt.Println("Installing Deps...")
