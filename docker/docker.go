@@ -14,9 +14,8 @@ import (
 // https://docs.github.com/en/rest/reference/packages
 
 var (
-	Owner      = "Lord-Y"
-	Repository = "versions-api"
-	// Repository  = "cypress-parallel-docker-images"
+	Owner       = "Lord-Y"
+	Repository  = "cypress-parallel-docker-images"
 	githubToken = strings.TrimSpace(os.Getenv("GITHUB_TOKEN"))
 )
 
