@@ -85,7 +85,7 @@ workflows:
         filters:
           tags:
             only: /.*/
-    - build-tags-and-publish:
+    - build-and-publish:
         context: GITHUB
         requires:
         - build
