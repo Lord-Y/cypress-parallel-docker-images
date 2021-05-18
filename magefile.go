@@ -58,7 +58,7 @@ func Build() (err error) {
 			var m buildImage
 			m.image = image
 			if !tools.StringInSlice(
-				fmt.Sprintf("%s:%s-%s", ghr, m.image.cypress, strings.TrimPrefix(m.image.cli, "v")),
+				fmt.Sprintf("%s-%s", m.image.cypress, strings.TrimPrefix(m.image.cli, "v")),
 				z[0].Metadata.Docker.Tags,
 			) {
 				if strings.TrimSpace(os.Getenv("PUBLISH_DOCKER_IMAGES")) != "" {
