@@ -48,18 +48,24 @@ func init() {
 // Build Build and publish docker images if doesn't exist
 func Build() (err error) {
 	mg.Deps(InstallDeps)
+	var tags []string
 	z, err := docker.GetDockerImages()
 	if err != nil {
 		log.Error().Err(err).Msg("Fail to retrieve docker image list")
 		return
 	}
+	for _, tag := range z {
+		tags = append(tags, tag.Metadata.Docker.Tags[0])
+	}
+	log.Info().Msgf("Actual tags %+v", tags)
+
 	if len(z) > 0 {
 		for _, image := range images {
 			var m buildImage
 			m.image = image
 			if !tools.StringInSlice(
 				fmt.Sprintf("%s-%s", m.image.cypress, strings.TrimPrefix(m.image.cli, "v")),
-				z[0].Metadata.Docker.Tags,
+				tags,
 			) {
 				if strings.TrimSpace(os.Getenv("PUBLISH_DOCKER_IMAGES")) != "" {
 					m.publish = true
