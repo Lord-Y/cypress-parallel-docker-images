@@ -67,7 +67,7 @@ func Build() (err error) {
 	}
 	log.Info().Msgf("Actual tags %+v", tags)
 
-	if len(z) > 0 {
+	if len(tags) > 0 {
 		for _, image := range images {
 			var m buildImage
 			m.image = image
