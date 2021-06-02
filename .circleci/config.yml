@@ -61,7 +61,8 @@ jobs:
     - save_cache:
         key: ${CIRCLE_PROJECT_REPONAME}-{{ checksum "go.mod" }}
         paths:
-        - /go/pkg/mod
+        - /home/circleci/.go_workspace/pkg/mod
+        - /var/lib/docker
 
     - run:
         name: Install dependencies
