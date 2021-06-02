@@ -11,8 +11,6 @@ executors:
 jobs:
   build:
     executor: ubuntu
-    environment:
-      GOLANG_VERSION: 1.16.4
 
     steps:
     - checkout
@@ -22,17 +20,14 @@ jobs:
         - ${CIRCLE_PROJECT_REPONAME}-{{ checksum "go.mod" }}
 
     - run:
-        name: Install golang
-        command: which go || sh ./scripts/golang.sh ${GOLANG_VERSION}
-
-    - run:
         name: download mage
         command: which mage || go get -u github.com/magefile/mage
 
     - save_cache:
         key: ${CIRCLE_PROJECT_REPONAME}-{{ checksum "go.mod" }}
         paths:
-        - /go/pkg/mod
+        - /home/circleci/.go_workspace/pkg/mod
+        - /var/lib/docker
 
     - run:
         name: Install dependencies
