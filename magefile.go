@@ -1,3 +1,4 @@
+//go:build mage
 // +build mage
 
 package main
@@ -18,6 +19,10 @@ import (
 
 var (
 	images = []image{
+		{
+			cypress: "7.4.0",
+			cli:     "v0.1.0",
+		},
 		{
 			cypress: "7.4.0",
 			cli:     "v0.0.5",
