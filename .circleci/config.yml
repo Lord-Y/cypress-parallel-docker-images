@@ -2,11 +2,12 @@
 version: 2.1
 
 # https://circleci.com/developer/images/image/cimg/go
+# https://circleci.com/docs/2.0/configuration-reference/#machine
 
 executors:
   ubuntu:
     machine:
-      image: ubuntu-2004:202104-01
+      image: ubuntu-2004:202111-01
 
 jobs:
   build:
@@ -40,7 +41,7 @@ jobs:
   build-and-publish:
     executor: ubuntu
     environment:
-      GOLANG_VERSION: 1.16.4
+      GOLANG_VERSION: 1.17.5
       PUBLISH_DOCKER_IMAGES: true
 
     steps:
