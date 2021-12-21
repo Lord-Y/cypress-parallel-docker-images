@@ -80,7 +80,7 @@ func Build() (err error) {
 		return
 	}
 	for _, tag := range z {
-		tags = append(tags, tag.Metadata.Docker.Tags[0])
+		tags = append(tags, tag.Metadata.Container.Tags[0])
 	}
 	log.Info().Msgf("Actual tags %+v", tags)
 

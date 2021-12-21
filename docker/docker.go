@@ -33,10 +33,10 @@ type Response struct {
 
 type metadata struct {
 	PackageType string `form:"package_type" json:"package_type"`
-	Docker      docker
+	Container   container
 }
 
-type docker struct {
+type container struct {
 	Tags []string `form:"tags" json:"tags"`
 }
 
