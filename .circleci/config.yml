@@ -18,14 +18,14 @@ jobs:
 
     - restore_cache:
         keys:
-        - ${CIRCLE_PROJECT_REPONAME}-{{ checksum "go.mod" }}
+        - ${CIRCLE_PROJECT_REPONAME}-{{ checksum "go.mod" }}-1
 
     - run:
         name: download mage
         command: which mage || go get -u github.com/magefile/mage
 
     - save_cache:
-        key: ${CIRCLE_PROJECT_REPONAME}-{{ checksum "go.mod" }}
+        key: ${CIRCLE_PROJECT_REPONAME}-{{ checksum "go.mod" }}-1
         paths:
         - /home/circleci/.go_workspace/pkg/mod
 
@@ -48,7 +48,7 @@ jobs:
 
     - restore_cache:
         keys:
-        - ${CIRCLE_PROJECT_REPONAME}-{{ checksum "go.mod" }}
+        - ${CIRCLE_PROJECT_REPONAME}-{{ checksum "go.mod" }}-1
 
     - run:
         name: Install golang
@@ -59,7 +59,7 @@ jobs:
         command: which mage || go get -u github.com/magefile/mage
 
     - save_cache:
-        key: ${CIRCLE_PROJECT_REPONAME}-{{ checksum "go.mod" }}
+        key: ${CIRCLE_PROJECT_REPONAME}-{{ checksum "go.mod" }}-1
         paths:
         - /home/circleci/.go_workspace/pkg/mod
 
