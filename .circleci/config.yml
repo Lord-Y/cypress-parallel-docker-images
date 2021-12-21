@@ -28,7 +28,6 @@ jobs:
         key: ${CIRCLE_PROJECT_REPONAME}-{{ checksum "go.mod" }}
         paths:
         - /home/circleci/.go_workspace/pkg/mod
-        - /var/lib/docker
 
     - run:
         name: Install dependencies
@@ -63,7 +62,6 @@ jobs:
         key: ${CIRCLE_PROJECT_REPONAME}-{{ checksum "go.mod" }}
         paths:
         - /home/circleci/.go_workspace/pkg/mod
-        - /var/lib/docker
 
     - run:
         name: Install dependencies
