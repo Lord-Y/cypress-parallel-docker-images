@@ -20,6 +20,18 @@ import (
 var (
 	images = []image{
 		{
+			cypress: "9.7.0",
+			cli:     "v0.1.1",
+		},
+		{
+			cypress: "8.7.0",
+			cli:     "v0.1.1",
+		},
+		{
+			cypress: "7.7.0",
+			cli:     "v0.1.1",
+		},
+		{
 			cypress: "7.4.0",
 			cli:     "v0.1.1",
 		},
