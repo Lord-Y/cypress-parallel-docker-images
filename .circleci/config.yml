@@ -40,7 +40,7 @@ jobs:
   build-and-publish:
     executor: ubuntu
     environment:
-      GOLANG_VERSION: 1.17.5
+      GOLANG_VERSION: 1.19.2
       PUBLISH_DOCKER_IMAGES: true
 
     steps:
