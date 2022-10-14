@@ -4,7 +4,7 @@ ARG CYPRESS_PARALLEL_CLI="v0.0.1"
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get -yqq update && apt-get install -yqq --no-install-recommends \
-    gcc vim build-essential
+    vim build-essential
 
 RUN apt-get clean \
     && rm -rf \
