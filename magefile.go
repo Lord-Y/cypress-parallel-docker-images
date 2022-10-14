@@ -21,6 +21,10 @@ var (
 	images = []image{
 		{
 			cypress: "9.7.0",
+			cli:     "v0.2.0",
+		},
+		{
+			cypress: "9.7.0",
 			cli:     "v0.1.1",
 		},
 		{
